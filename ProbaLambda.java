@@ -9,7 +9,7 @@ public class ProbaLambda extends Applet{
 
 	public void init(){
 		b= new Button("ok");
-		b.addActionListener(e -> System.out.println("click con lambdas"));
+		b.addActionListener((ActionEvent e) -> System.out.println("click con lambdas"));
 		this.add(b);
 		
 	}
