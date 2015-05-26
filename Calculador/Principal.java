@@ -16,9 +16,15 @@ public class Principal extends JFrame{
 	private JLabel l;
 	private JButton b;	
 	private ArrayList<JButton> lista = new ArrayList<JButton>();
+	private Font fo;
+	private String 	xanela;
+	private int acumulador;
 	public Principal(){
 		l = new JLabel();
 		texto = new JTextArea(4,4);
+		fo = texto.getFont();
+		texto.setBackground(Color.yellow);
+		texto.setFont(fo.deriveFont(fo.getSize()+20f));
 		texto.setEditable(false);
 		panel = new JPanel();
 		panel.setLayout(new GridLayout(5,4,10,10));
@@ -66,14 +72,30 @@ public class Principal extends JFrame{
 		}
 	}
 	
-class Escoita implements ActionListener{
+	class Escoita implements ActionListener{
 
-        public void actionPerformed(ActionEvent ae){
-		texto.append(((JButton)ae.getSource()).getText());
+        	public void actionPerformed(ActionEvent ae){
+			switch(((JButton)ae.getSource()).getText()){
+				case "+":
+					System.out.println(acumulador);
+					acumulador = (texto.getText().equals("")? 0 : (acumulador + Integer.parseInt(texto.getText())));
+					texto.setText("");
+				break;
+				case "-":
+                                        System.out.println(acumulador);
+                                        acumulador = (texto.getText().equals("")? Integer.parseInt(texto.getText()): (acumulador - Integer.parseInt(texto.getText())));
+                                        texto.setText("");
+                                break;
 
+				case "=":
+					texto.setText(""+acumulador);
+				break;
+				default:
+				texto.append(((JButton)ae.getSource()).getText());
+			}
 
-        }
-}
+        	}
+	}
 	
 }
 
