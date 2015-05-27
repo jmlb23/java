@@ -1,7 +1,9 @@
 import javax.swing.*;
+import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import javax.script.*;
 
 final class Simbolos{
 	public static final char[] ARRAY =
@@ -19,9 +21,11 @@ public class Principal extends JFrame{
 	private Font fo;
 	private String 	xanela;
 	private int acumulador;
+	private boolean intro = true;
+
 	public Principal(){
 		l = new JLabel();
-		texto = new JTextArea(4,4);
+		texto = new JTextArea(5,4);
 		fo = texto.getFont();
 		texto.setBackground(Color.yellow);
 		texto.setFont(fo.deriveFont(fo.getSize()+20f));
@@ -33,7 +37,7 @@ public class Principal extends JFrame{
 		agregaCompoñentes();
 		agregaEscoita();	
 		this.setVisible(true);	
-		this.setSize(285,325);
+		this.setSize(285,290);
 		//this.setResizable(false);
 		
 	}
@@ -46,7 +50,28 @@ public class Principal extends JFrame{
 	public void crearMenu(){
 				
 		menu = new JMenuBar();
-		menu.add(new JMenu("proba"));
+		JMenu m = new JMenu("borrar");
+		m.addMenuListener(new MenuListener(){
+			@Override
+            public void menuSelected(MenuEvent e) {
+               
+				texto.setText("");
+            }
+
+            @Override
+            public void menuDeselected(MenuEvent e) {
+              
+
+            }
+
+            @Override
+            public void menuCanceled(MenuEvent e) {
+               
+
+            }
+		});
+		menu.add(m);
+		
 		
 
 	}
@@ -75,27 +100,19 @@ public class Principal extends JFrame{
 	class Escoita implements ActionListener{
 
         	public void actionPerformed(ActionEvent ae){
-			switch(((JButton)ae.getSource()).getText()){
-				case "+":
-					System.out.println(acumulador);
-					acumulador = (texto.getText().equals("")? 0 : (acumulador + Integer.parseInt(texto.getText())));
-					texto.setText("");
-				break;
-				case "-":
-                                        System.out.println(acumulador);
-                                        acumulador = (texto.getText().equals("")? Integer.parseInt(texto.getText()): (acumulador - Integer.parseInt(texto.getText())));
-                                        texto.setText("");
-                                break;
-
-				case "=":
-					texto.setText(""+acumulador);
-				break;
-				default:
+			if(((JButton)ae.getSource()).getText().equals("=")){
+				intro = true;
+				try{
+					texto.setText(new ScriptEngineManager().getEngineByName("js").eval(texto.getText()).toString());
+				}catch(ScriptException e){
+					texto.setText("Erro");
+				}
+			}else{
 				texto.append(((JButton)ae.getSource()).getText());
 			}
 
         	}
-	}
+	}	
 	
 }
 
