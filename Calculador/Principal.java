@@ -8,8 +8,13 @@ import javax.script.*;
 final class Simbolos{
 	public static final char[] ARRAY =
 	{
-		'1','2','3','+','4','5','6','-','7','8','9','/','0',',','=','*'
+		'1','2','3','+','4','5','6','-','7','8','9','/','0','.','=','*'
 	};
+}
+final class WinAdap extends WindowAdapter{
+	public void windowClosing(WindowEvent we){
+		System.exit(0);
+	}
 }
 public class Principal extends JFrame{
 	private JTextArea texto;
@@ -24,6 +29,7 @@ public class Principal extends JFrame{
 	private boolean intro = true;
 
 	public Principal(){
+		this.setResizable(false);
 		l = new JLabel();
 		texto = new JTextArea(5,4);
 		fo = texto.getFont();
@@ -38,8 +44,7 @@ public class Principal extends JFrame{
 		agregaEscoita();	
 		this.setVisible(true);	
 		this.setSize(285,290);
-		//this.setResizable(false);
-		
+		this.addWindowListener(new WinAdap());
 	}
 	
 	public static void main(String... args){
